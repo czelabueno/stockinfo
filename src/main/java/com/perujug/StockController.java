@@ -4,7 +4,6 @@ import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller("/")
 public class StockController {
@@ -16,6 +15,12 @@ public class StockController {
 
     @Get("{ticker}")
     public Stock getStock(String ticker){
+        System.out.println("ticker:" + ticker);
+        if(Math.random() > 0.8){
+            System.out.println("simulando una falla...");
+            throw new RuntimeException("oops algo fallo");
+
+        }
         return stockService.getStocks().stream()
                 .filter(stock -> stock.getTicker().equals(ticker))
                 .findFirst()
